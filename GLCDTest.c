@@ -27,7 +27,7 @@ int main(void)
 	// draw some lines
 	lcd_draw_line(0, 0, 127,64);
 	
-	lcd_draw_line(0, 63, 127, 0);
+
 	
 	lcd_draw_line(0, 0, 127, 0);
 	
@@ -46,8 +46,8 @@ int main(void)
 	
 	
 	// print some text	
-	lcd_draw_string( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" , 0, 0);
-	lcd_draw_string( "Hello World" , 3, 2);
+	lcd_draw_string( "WelldoneJonas" , 40, 1);
+	lcd_draw_string( "Hello World" , 0, 4);
 	
 	
     while(1)
