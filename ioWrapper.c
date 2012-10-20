@@ -7,7 +7,6 @@
 
 #include "ioWrapper.h"
 
-
 void portsInit(){
 	DDRD |= (1 << 6 | (1 << 7) ) ; // configure PD.5, PD.6 as an output
 	DDRB |= ( (1 << 0) | (1 << 1) | (1 << 2) );  // configure PB.0, PB.1, PB.2 as an output
@@ -24,7 +23,6 @@ void dataPortDirection(uint8_t direction){
 	}		
 	
 }
-
 
 /*
 	write data to Port C (low) and Port D ( low )
