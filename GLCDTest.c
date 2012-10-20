@@ -18,11 +18,13 @@
 int main(void)
 {
 	
+	// configure the AVR ports
 	portsInit();
 
+	// turn on the LCD and clear the screen
 	lcd_init();
 	
-
+	// draw some lines
 	lcd_draw_line(0, 0, 127,64);
 	
 	lcd_draw_line(0, 63, 127, 0);
@@ -35,14 +37,16 @@ int main(void)
 	
 	lcd_draw_line(127, 0, 127 , 63);
 	
+	// draw some dots
 	lcd_draw_dot(0,0);
 	lcd_draw_dot(0,63);
 
 	lcd_draw_dot(127,0);
 	lcd_draw_dot(127,63);
 	
-	lcd_draw_string( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" , 0, 0);
 	
+	// print some text	
+	lcd_draw_string( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" , 0, 0);
 	lcd_draw_string( "Hello World" , 3, 2);
 	
 	
