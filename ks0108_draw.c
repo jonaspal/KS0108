@@ -17,8 +17,8 @@
 * @param  x horizintal position of the first character
 * @param  y vertical position of the first charachter
 */
-void lcd_draw_string(char *s, uint8_t x, uint8_t y){
-	lcd_select_col_row(x,y);
+void ksDrawString(char *s, uint8_t x, uint8_t y){
+	ksSelectColRow(x,y);
 
 	int start, j;
 
@@ -32,11 +32,11 @@ void lcd_draw_string(char *s, uint8_t x, uint8_t y){
 			start = ( ( *s++ ) - 32) * 5;
 
 			for(j =start; j < start + 5 ; j++){
-				lcd_write_data(Font5x7[j]);
+				ksWriteData(Font5x7[j]);
 			}
 			
 			x+=6;
-			lcd_select_col_row(x,y);
+			ksSelectColRow(x,y);
 	  }
 	
 }
@@ -50,7 +50,7 @@ void lcd_draw_string(char *s, uint8_t x, uint8_t y){
 * @param  x2
 * @param  y1
 */
-void lcd_draw_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2){ 
+void ksDrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2){ 
 
 int i, deltax, deltay, numpixels;
 int d, dinc1, dinc2;
@@ -103,7 +103,7 @@ y = y1;
 //draw the pixels
 for(i = 1; i < numpixels; i++)
 {
-	lcd_draw_dot(x, y);
+	ksDrawDot(x, y);
 	if(d < 0)
 	{
 		d = d + dinc1;

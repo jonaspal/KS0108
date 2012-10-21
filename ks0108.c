@@ -10,25 +10,25 @@
 /**
 * Initialize and clear the LCD
 */
-void lcd_init(){
+void ksInit(){
 	turnOnCS1();
 	turnOnCS2();	
 
-	lcd_write_command(LCD_ON);
-	lcd_clear();
+	ksWriteCommand(LCD_ON);
+	ksClear();
 }
 
 /**
 * Write a command to the LCD
 * @param  command command to be executed
 */
-void lcd_write_command(uint8_t command){
-		lcd_busy();
+void ksWriteCommand(uint8_t command){
+		ksBusy();
 		turnOffRS();	 // set RS to low
 		turnOffRW();	 // set RW to low
 		dataPortDirection(OUTPUT);
 		writeDataPort(command);
-		lcd_toggle();
+		ksToggle();
 }
 
 
@@ -36,13 +36,13 @@ void lcd_write_command(uint8_t command){
 * Write data to the LCD
 * @param  data data to be transmitted
 */
-void lcd_write_data(uint8_t data){
-	lcd_busy();
+void ksWriteData(uint8_t data){
+	ksBusy();
 	turnOnRS();		// RS high
 	turnOffRW();	 // set RW to low ( write mode )
 	dataPortDirection(OUTPUT);
 	writeDataPort(data);
-	lcd_toggle();
+	ksToggle();
 }
 
 
@@ -52,15 +52,15 @@ void lcd_write_data(uint8_t data){
 * @param pageNumber page number ( Y axis, must be between 0 and 8)
 * @return page
 */
-uint8_t lcd_read_data(uint8_t col, uint8_t pageNumber){
+uint8_t ksReadData(uint8_t col, uint8_t pageNumber){
 	uint8_t data = 0x00;
 	
 	if(col < 63)
-		lcd_select_chip(CHIP1);
+		ksSelectChip(CHIP1);
 	else
-		lcd_select_chip(CHIP2);
+		ksSelectChip(CHIP2);
 	
-	lcd_select_col_row( col, pageNumber ); 
+	ksSelectColRow( col, pageNumber ); 
 	
 	dataPortDirection(INPUT);
 
@@ -68,11 +68,11 @@ uint8_t lcd_read_data(uint8_t col, uint8_t pageNumber){
 	turnOnRW(); // Enable Read mode
 
 	// dummy read
-	lcd_toggle();
+	ksToggle();
 	data = readDataPort();
 	
 	// actual read
-	lcd_toggle();
+	ksToggle();
 	data = readDataPort();
 	
 	return data;
@@ -81,14 +81,14 @@ uint8_t lcd_read_data(uint8_t col, uint8_t pageNumber){
 /**
 * Clear the LCD
 */
-void lcd_clear(){
+void ksClear(){
 	uint8_t x;
 	uint8_t y;
 	
 	for(x = 0;  x < 128; x++){
 		for(y = 0;  y < 8; y++){
-			lcd_select_col_row(x, y);
-			lcd_write_data(0x00);
+			ksSelectColRow(x, y);
+			ksWriteData(0x00);
 		}	
 	}
 }
@@ -97,8 +97,8 @@ void lcd_clear(){
 /**
 *	 Loop while the LCD is busy
 */
-void lcd_busy(){
-	/*
+void ksBusy(){
+	/* @todo: instead of using a delay, read LCD status:
 	// prepare the lcd to read its status
 	turnOffRS();
 	turnOnRW();
@@ -113,19 +113,19 @@ void lcd_busy(){
 /**
 * Toggle the enable pin (also called pulse)
 */
-void lcd_toggle(){
+void ksToggle(){
 		turnOnEN();
-		lcd_busy();
+		ksBusy();
 		turnOffEN();
-		lcd_busy();
+		ksBusy();
 }
 
 /**
 * Select an appropriate row
 * @param row row to be selected
 */
-void lcd_select_row(uint8_t row){ // @todo: rename to select_page?
-	lcd_write_command( ( row | 0xB8 ) & 0xBF ); // put the row address on the data port @todo: use defines and bit shifts
+void ksSelectRow(uint8_t row){ // @todo: rename to select_page?
+	ksWriteCommand( ( row | 0xB8 ) & 0xBF ); // put the row address on the data port @todo: use defines and bit shifts
 }
 
 
@@ -133,19 +133,19 @@ void lcd_select_row(uint8_t row){ // @todo: rename to select_page?
 * Select the appropriate column
 * @param col col to be selected
 */
-void lcd_select_col(uint8_t col){
+void ksSelectCol(uint8_t col){
 		uint8_t columnData;
 		
 		if(col < 64){
-			lcd_select_chip(CHIP1);
+			ksSelectChip(CHIP1);
 			columnData = col;
 		}else{
-			lcd_select_chip(CHIP2);
+			ksSelectChip(CHIP2);
 			columnData = col -64;
 		}
 		
 		columnData   = (columnData | 0x40) & 0x7F; //@todo: use shifts+ document + use defines
-		lcd_write_command(columnData);	
+		ksWriteCommand(columnData);	
 }
 
 /**
@@ -153,9 +153,9 @@ void lcd_select_col(uint8_t col){
 * @param col col to be selected
 * @param row row to be selected
 */
-void lcd_select_col_row(uint8_t col, uint8_t row){
-	lcd_select_col(col);
-	lcd_select_row(row);
+void ksSelectColRow(uint8_t col, uint8_t row){
+	ksSelectCol(col);
+	ksSelectRow(row);
 }
 
 
@@ -163,7 +163,7 @@ void lcd_select_col_row(uint8_t col, uint8_t row){
 * Select the appropriate LCD controller
 * @param chip LCD controller to be activated
 */
-void lcd_select_chip(uint8_t chip){
+void ksSelectChip(uint8_t chip){
 	if(chip == CHIP1){
 		turnOnCS1();
 		turnOffCS2();
@@ -179,11 +179,11 @@ void lcd_select_chip(uint8_t chip){
 * @param x x axis
 * @param y y axis
 */
-void lcd_draw_dot(uint8_t x, uint8_t y){
-	uint8_t currentData = lcd_read_data(x, y >> 3 ); // Divide y by 8 to get the correct page
+void ksDrawDot(uint8_t x, uint8_t y){
+	uint8_t currentData = ksReadData(x, y >> 3 ); // Divide y by 8 to get the correct page
 	
 	// the read operation increments the internal Y counter, we need to reselect the correct coordinates.
-	lcd_select_col_row( x, ( y >> 3 ) );
+	ksSelectColRow( x, ( y >> 3 ) );
 	
-	lcd_write_data( (currentData) | (1 << (y % 8)) ); // @todo: document this
+	ksWriteData( (currentData) | (1 << (y % 8)) ); // @todo: document this
 }

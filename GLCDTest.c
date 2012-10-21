@@ -22,38 +22,30 @@ int main(void)
 	portsInit();
 
 	// turn on the LCD and clear the screen
-	lcd_init();
+	ksInit();
 	
 	// draw some lines
-	lcd_draw_line(0, 0, 127,64);
 	
-
+	ksDrawLine(0, 0, 127, 0);
 	
-	lcd_draw_line(0, 0, 127, 0);
+	ksDrawLine(0, 63, 127, 63);
 	
-	lcd_draw_line(0, 63, 127, 63);
+	ksDrawLine(0, 0, 0, 63);
 	
-	lcd_draw_line(0, 0, 0, 63);
-	
-	lcd_draw_line(127, 0, 127 , 63);
+	ksDrawLine(127, 0, 127 , 63);
 	
 	// draw some dots
-	lcd_draw_dot(0,0);
-	lcd_draw_dot(0,63);
+	ksDrawDot(0,0);
+	ksDrawDot(0,63);
 
-	lcd_draw_dot(127,0);
-	lcd_draw_dot(127,63);
+	ksDrawDot(127,0);
+	ksDrawDot(127,63);
 	
 	
 	// print some text	
-	lcd_draw_string( "WelldoneJonas" , 40, 1);
-	lcd_draw_string( "Hello World" , 0, 4);
+	ksDrawString( "WelldoneJonas" , 40, 1);
+	ksDrawString( "Hello World" , 5, 4);
 	
 	
-    while(1)
-    {
-		
-
-	
-    }
+    while(1);
 }

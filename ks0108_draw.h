@@ -13,9 +13,9 @@
 #include <stdlib.h>
 
 
-void lcd_draw_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+void ksDrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 
-void lcd_draw_string(char *s, uint8_t x, uint8_t y);
+void ksDrawString(char *s, uint8_t x, uint8_t y);
 
 static unsigned char Font5x7[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00,// (space)

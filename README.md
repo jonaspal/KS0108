@@ -12,9 +12,9 @@ Update ioWrapper.c to match your configuration.
 
 	portsInit();
 
-	lcd_init();
+	ksInit();
 	
-	lcd_draw_dot(64, 32);
+	ksDrawDot(64, 32);
 	
 	
 See GLCDTest.c for more examples

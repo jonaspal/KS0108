@@ -26,29 +26,29 @@
 // Commands
 #define LCD_ON 0x3F
 
-void lcd_init();
+void ksInit();
 
-void lcd_write_command(uint8_t command);
+void ksWriteCommand(uint8_t command);
 
-void lcd_write_data(uint8_t data);
+void ksWriteData(uint8_t data);
 
-uint8_t lcd_read_data(uint8_t col, uint8_t pageNumber);
+uint8_t ksReadData(uint8_t col, uint8_t pageNumber);
 
-void lcd_clear();
+void ksClear();
 
-void lcd_busy();
+void ksBusy();
 
-void lcd_toggle();
+void ksToggle();
 
-void lcd_select_row(uint8_t row);
+void ksSelectRow(uint8_t row);
 
-void lcd_select_col(uint8_t col);
+void ksSelectCol(uint8_t col);
 
-void lcd_select_col_row(uint8_t col, uint8_t row);
+void ksSelectColRow(uint8_t col, uint8_t row);
 
-void lcd_select_chip(uint8_t chip);
+void ksSelectChip(uint8_t chip);
 
-void lcd_draw_dot(uint8_t x, uint8_t y);
+void ksDrawDot(uint8_t x, uint8_t y);
 
 
 #endif /* KS0108_H_ */
